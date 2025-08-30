@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task List{% endblock %}
+
+{% block body %}
+    <h1>Tasks</h1>
+    <a href="{{ path('task_new') }}">➕ Add New Task</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.title }}</strong> - Due: {{ task.dueDate|date('Y-m-d H:i') }}
+                {% if task.isCompleted %}
+                    ✅ Completed
+                {% else %}
+                    ❌ Pending
+                {% endif %}
+                <a href="{{ path('task_edit', {id: task.id}) }}">Edit</a>
+                <a href="{{ path('task_delete', {id: task.id}) }}">Delete</a>
+            </li>
+        {% else %}
+            <li>No tasks yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
