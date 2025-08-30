@@ -6,22 +6,24 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'This email is already registered')]
 class User
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\NotBlank]
     #[Assert\Length(max: 180)]
+    #[Assert\NotBlank(message: "Full name is required")]
     private string $name = '';
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
+    #[Assert\NotBlank(message: "Email is required")]
+    #[Assert\Email(message: "Please enter a valid email address")]
     private string $email = '';
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class, cascade: ['remove'], orphanRemoval: true)]
