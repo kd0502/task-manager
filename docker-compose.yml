@@ -1,0 +1,48 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: taskmanager-php
+    volumes:
+      - .:/var/www/task-manager:cached
+    working_dir: /var/www/task-manager
+    depends_on:
+      - db
+    networks:
+      - tasknet
+
+  nginx:
+    image: nginx:latest
+    container_name: taskmanager-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/task-manager:cached
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    networks:
+      - tasknet
+
+  db:
+    image: mysql:8.0
+    container_name: taskmanager-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: task_manager_db
+      MYSQL_USER: tmdb_user
+      MYSQL_PASSWORD: tmdb_P4ssW0rd
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - tasknet
+
+volumes:
+  db_data:
+
+networks:
+  tasknet:
+    driver: "bridge"
