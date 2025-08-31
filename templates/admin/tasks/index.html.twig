@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tasks{% endblock %}
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3">Tasks</h1>
+        <a class="btn btn-primary" href="{{ path('admin_tasks_new') }}">New Task</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead><tr><th>ID</th><th>Title</th><th>Status</th><th>User</th><th>Created</th><th></th></tr></thead>
+        <tbody>
+        {% for t in tasks %}
+            <tr>
+                <td>{{ t.id }}</td>
+                <td>{{ t.title }}</td>
+                <td>{{ t.status.value }}</td>
+                <td>{{ t.user.name }} ({{ t.user.email }})</td>
+                <td>{{ t.createdAt|date('Y-m-d H:i') }}</td>
+                <td class="text-end">
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ path('admin_tasks_edit', {id:t.id}) }}">Edit</a>
+                    <form class="d-inline" method="post" action="{{ path('admin_tasks_delete', {id:t.id}) }}" onsubmit="return confirm('Delete task?')">
+                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
