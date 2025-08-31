@@ -71,3 +71,8 @@ It will automatically redirect to Users section
 <code>docker compose exec php php bin/console app:tasks:report</code>
 
 Expected output - Separate tables for each users with Tasks count per status (todo, in_progress, done)
+
+
+#### Run the Test Script (Created for Create new user API)
+
+<code>docker compose exec php php bin/phpunit</code>
