@@ -1,2 +1,3 @@
-ALTER USER 'tmdb_user'@'%' IDENTIFIED WITH mysql_native_password BY 'tmdb_P4ssW0rd';
+CREATE USER IF NOT EXISTS 'tmdb_user'@'%' IDENTIFIED BY 'tmdb_P4ssW0rd';
+GRANT ALL PRIVILEGES ON *.* TO 'tmdb_user'@'%';
 FLUSH PRIVILEGES;
