@@ -1,6 +1,16 @@
 #!/bin/sh
 set -e
 
+cd /var/www/task-manager
+
+if [ ! -d "vendor" ]; then
+  echo "📦 Vendor folder not found. Running composer install..."
+  composer install --no-interaction --optimize-autoloader
+else
+  echo "🔄 Vendor folder exists. Updating dependencies..."
+  composer update --no-interaction --optimize-autoloader
+fi
+
 echo "⏳ Waiting for database..."
 until nc -z db 3306; do
   sleep 2

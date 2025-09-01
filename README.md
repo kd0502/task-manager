@@ -24,19 +24,25 @@ Nginx (Latest)
 4. Build project and run containers using docker compose \
     <code> docker compose up -d --build </code>
     
-Note: This process may take up to 10 minutes to finish.
+Note: This process may take several minutes to finish.
 
-Database migrations will run automatically for the initial setup. \
-To manually run migrations use below commands
+It will automatically install the missing dependencies and update the DB migrations.
+
+To manually install dependencies
+
+<code> docker compose exec php composer install </code>
+
+To manually update dependencies
+
+<code> docker compose exec php composer update </code>
+
+
+To manually run migrations use below commands (Dependencies should be loaded already)
 
 1. Create migrations for new entities \
     <code>docker compose exec php php bin/console doctrine:migrations:diff</code>
 2. Run migrations \
     <code>docker compose exec php php bin/console doctrine:migrations:migrate</code>
-    
-Install dependencies
-
-<code> docker compose exec php composer install </code>
     
 #### Access the project (Admin panel)
 
